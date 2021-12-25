@@ -1,21 +1,27 @@
 import { useState, useEffect } from 'react'
 import '../styles/card.scss'
 import lottie from 'lottie-web'
-import giftAnim from '../lottie_json/gift_2.json'
-import loveAnim from '../lottie_json/love.json'
+
 const Card = () => {
+  // state for managing love react
   const [loveStatus, setLoveStatus] = useState(false)
+  // state for managing gift open or close status
   const [giftSatus, setGiftStatus] = useState(false)
   let popSoundEffect = new Audio('/sound/pop.mp3')
   let giftPopSound = new Audio('/sound/gift_pop.mp3')
+
+  // seek sound to required time
   popSoundEffect.currentTime = 0.65
   giftPopSound.currentTime = 8
   useEffect(() => {
     lottie.loadAnimation({
+      // container stores the element where you want to render your animation
       container: document.querySelector('#gift-btn'),
+      // path of the required json file
       path: '/lottie_json/gift_2.json',
       loop: false,
       autoplay: false,
+      // name of the animation to reference it later
       name: 'giftAnim',
     })
     lottie.loadAnimation({
@@ -26,8 +32,12 @@ const Card = () => {
       name: 'loveAnim',
     })
   }, [])
+  // useeffects hook for playing/stoping sound and animation after change of the state
+  // for gift animation
   useEffect(() => {
     if (giftSatus) {
+      // the sound effect I used was in between the mp3..
+      // was lazy to crop the sound so intead wrote a simple program for it.
       setTimeout(() => {
         giftPopSound.play()
         setTimeout(() => {
@@ -39,6 +49,8 @@ const Card = () => {
       lottie.stop('giftAnim')
     }
   }, [giftSatus])
+
+  // for love react
   useEffect(() => {
     if (loveStatus) {
       popSoundEffect.play()
